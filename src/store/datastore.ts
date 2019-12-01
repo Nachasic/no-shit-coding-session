@@ -5,3 +5,8 @@
  * - change data;
  * - report changes
  */
+
+
+ export class DataStore {
+     
+ }
