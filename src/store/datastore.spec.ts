@@ -8,6 +8,11 @@ describe('Data store tests', () => {
         store = new DataStore();
     })
 
+    afterEach(() => {
+        store.destroy();
+        store = undefined
+    })
+
     it('should exist', () => {
         expect(store).toBeDefined();
     });
