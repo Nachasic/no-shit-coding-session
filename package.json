@@ -1,0 +1,41 @@
+{
+  "name": "ts-semver-tpl",
+  "version": "0.0.0-semantically-released",
+  "description": "Template project",
+  "main": "dist/index.js",
+  "ts:main": "src/index.ts",
+  "typings": "src/index.ts",
+  "files": [
+    "dist/**/*.js",
+    "src/**/*.ts"
+  ],
+  "author": "Nachasic <nachasic@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "npx tsc -p .",
+    "prepublish": "yarn build",
+    "test": "npx jest --detectOpenHandles",
+    "test-coveralls": "npx jest --detectOpenHandles --coverage && cat ./coverage/lcov.info | coveralls",
+    "travis-deploy-once": "travis-deploy-once",
+    "semantic-release": "semantic-release"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.11",
+    "@types/node": "^11.13.5",
+    "@types/reflect-metadata": "^0.1.0",
+    "coveralls": "^3.0.3",
+    "cz-conventional-changelog": "2.1.0",
+    "jest": "^24.7.1",
+    "semantic-release": "^15.13.12",
+    "ts-jest": "^24.0.2"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^3.4.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

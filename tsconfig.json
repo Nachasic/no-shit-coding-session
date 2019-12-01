@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "outDir": "dist",
+      "target": "ES6",
+      "importHelpers": true,
+      "declaration": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "lib": [
+        "es2018"
+      ],
+      "baseUrl": "src",
+      "typeRoots": [
+        "node_modules/@types"
+      ]
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+  }
