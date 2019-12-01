@@ -10,7 +10,7 @@ describe('Data store tests', () => {
 
     afterEach(() => {
         store.destroy();
-        store = undefined
+        store = undefined;
     })
 
     it('should exist', () => {
