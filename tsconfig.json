@@ -4,15 +4,19 @@
       "outDir": "dist",
       "target": "ES6",
       "importHelpers": true,
-      "declaration": true,
+      "declaration": false,
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "lib": [
-        "es2018"
+        "es2018",
+        "dom"
       ],
       "baseUrl": "src",
       "typeRoots": [
         "node_modules/@types"
+      ],
+      "plugins": [
+        { "name": "typescript-lit-html-plugin" }
       ]
     },
     "include": ["src"],

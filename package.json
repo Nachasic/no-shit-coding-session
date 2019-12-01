@@ -12,6 +12,7 @@
   "author": "Nachasic <nachasic@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "start": "npx ts-node fuse.ts",
     "build": "npx tsc -p .",
     "prepublish": "yarn build",
     "test": "npx jest --detectOpenHandles",
@@ -25,11 +26,14 @@
     "@types/reflect-metadata": "^0.1.0",
     "coveralls": "^3.0.3",
     "cz-conventional-changelog": "2.1.0",
+    "fuse-box": "^3.7.1",
     "jest": "^24.7.1",
     "semantic-release": "^15.13.12",
-    "ts-jest": "^24.0.2"
+    "ts-jest": "^24.0.2",
+    "typescript-lit-html-plugin": "^0.9.0"
   },
   "dependencies": {
+    "lit-element": "^2.2.1",
     "reflect-metadata": "^0.1.13",
     "typescript": "^3.4.4"
   },

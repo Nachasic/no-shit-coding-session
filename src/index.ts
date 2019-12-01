@@ -1,3 +1,3 @@
-export const helloWorld = () => {
-    return 'Hello, world!'
-}
+import { AppView } from './views/app-view';
+
+document.body.appendChild(new AppView() as any);
