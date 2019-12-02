@@ -19,7 +19,6 @@ describe('Data store tests', () => {
 
     it('should report it\'s contents', () => {
         expect(store.report).toBeDefined();
-
         const report = store.report();
 
         expect(report).toEqual({})
