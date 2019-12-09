@@ -14,7 +14,6 @@ import { NickNameMap, NotifierFn, GenericStore } from './types';
 type CustomElement = {
     connectedCallback?(): void;
     disconnectedCallback?(): void;
-    readonly isConnected: boolean;
 }
 export type Constructor<T> = new (...args: any[]) => T;
 type Connectable<T> = CustomElement & {
