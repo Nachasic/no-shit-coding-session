@@ -5,12 +5,12 @@
  * - change data;
  * - report changes
  */
-import { StoreNotification, StoreOperation, NickNameMap } from './types';
+import { StoreNotification, StoreOperation, NickNameMap, NotifierFn, GenericStore } from './types';
 
-export class DataStore {
+export class DataStore implements GenericStore<NickNameMap> {
     static store: DataStore;
     private map: NickNameMap;
-    private notifier: (msg: StoreNotification) => any | void;
+    private notifier: NotifierFn;
 
     constructor () {
         if (DataStore.store) {
@@ -33,8 +33,16 @@ export class DataStore {
             {})
     }
 
-    public registerNotifier (fn: (msg: StoreNotification) => any | void) {
+    public unwrap () {
+        return this.map;
+    }
+
+    public registerNotifier (fn: NotifierFn) {
         this.notifier = fn;
+    }
+
+    public removeNotifier () {
+        this.notifier = undefined;
     }
 
     public add (name: string) {

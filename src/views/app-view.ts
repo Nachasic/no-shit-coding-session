@@ -28,7 +28,7 @@ export class AppView extends LitElement {
                 html`<nick-assign 
                     name=${name},
                     nick=${nick},
-                    @renamed=${ e => console.log(e)}
+                    @renamed=${ e => console.log(e) }
                 />`
             )
         }

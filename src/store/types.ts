@@ -8,3 +8,12 @@ export type StoreNotification = {
     name: string,
     nick?: string
 };
+export type NotifierFn = (msg: StoreNotification) => any | void;
+export type Notifier = {
+    registerNotifier: (fn: NotifierFn) => void;
+    removeNotifier: () => void;
+}
+export type Wrapper<T> = {
+    unwrap: () => T
+}
+export type GenericStore<T> = Wrapper<T> & Notifier;
