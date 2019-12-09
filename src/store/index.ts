@@ -3,7 +3,6 @@ export * from './types';
 import { DataStore } from './datastore';
 import { ConnectFactory } from './subscriber';
 import { Injector, resolveActions } from './mutator';
-import { DispatcherActions } from './types';
 
 const INITIAL_STATE = {
     "Lawrence Fishbourne": "Morpheus",

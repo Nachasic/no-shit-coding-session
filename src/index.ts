@@ -1,3 +1,3 @@
-import { AppView } from './views/app-view';
+import './views/app-view';
 
-document.body.appendChild(new AppView() as any);
+document.body.innerHTML = "<app-view />";
