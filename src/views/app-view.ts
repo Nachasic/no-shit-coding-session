@@ -18,7 +18,15 @@ export class AppView extends LitElement {
         }
 
         // Add new name to the store  
-    } 
+    }
+
+    submitNick (name: string, nick: string) {
+        // Submit changes to the store
+    }
+
+    onStateUpdate (newState: NickNameMap) {
+        this.map = newState;
+    }
 
     render () {
         const nicknameTemplates: TemplateResult[] = [];
@@ -26,9 +34,9 @@ export class AppView extends LitElement {
         for (const [name, nick] of this.map.entries()) {
             nicknameTemplates.push(
                 html`<nick-assign 
-                    name=${name},
-                    nick=${nick},
-                    @renamed=${ e => console.log(e)}
+                    name=${name}
+                    nick=${nick}
+                    @renamed=${ ({ detail: { nick } }) => this.submitNick(name, nick) }
                 />`
             )
         }
