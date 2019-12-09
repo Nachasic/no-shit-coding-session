@@ -21,6 +21,10 @@ export class AppView extends LitElement {
         // Add new name to the store  
     }
 
+    submitNick (name: string, nick: string) {
+        // Submit changes to the store
+    }
+
     onStateUpdate (newState: NickNameMap) {
         this.map = newState;
     }
@@ -33,7 +37,7 @@ export class AppView extends LitElement {
                 html`<nick-assign 
                     name=${name}
                     nick=${nick}
-                    @renamed=${ e => console.log(e) }
+                    @renamed=${ ({ detail: { nick } }) => this.submitNick(name, nick) }
                 />`
             )
         }
