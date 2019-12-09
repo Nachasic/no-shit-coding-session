@@ -17,10 +17,10 @@ type CustomElement = {
 }
 export type Constructor<T> = new (...args: any[]) => T;
 type Connectable<T> = CustomElement & {
-    onStateUpdate?: (state: T) => void;
+    onStateUpdate: (state: T) => void;
 }
 
-export const Connect = (store: GenericStore<NickNameMap>) =>
+export const ConnectFactory = (store: GenericStore<NickNameMap>) =>
     <T extends Constructor<Connectable<any>>>(constructor: T) => {
         // const metadata = Reflect.getMetadata('design:paramtypes', constructor);
         // const argsNum = metadata ? metadata.length : 0;
@@ -56,7 +56,8 @@ export const Connect = (store: GenericStore<NickNameMap>) =>
                     return;
                 }
 
-                store.registerNotifier(this.notifier)
+                store.registerNotifier(this.notifier);
+                this.onStateUpdate(store.unwrap())
             }
         
             disconnectedCallback() {

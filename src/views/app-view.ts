@@ -1,9 +1,10 @@
 import { html, LitElement, customElement, property, TemplateResult } from 'lit-element';
-import { NickNameMap } from '../store';
+import { NickNameMap, Connect } from '../store';
 
 import '../components/nick-assign';
 
 @customElement('app-view')
+@Connect
 export class AppView extends LitElement {
     @property({ attribute: false }) map: NickNameMap = new Map();
 
@@ -18,7 +19,11 @@ export class AppView extends LitElement {
         }
 
         // Add new name to the store  
-    } 
+    }
+
+    onStateUpdate (newState: NickNameMap) {
+        this.map = newState;
+    }
 
     render () {
         const nicknameTemplates: TemplateResult[] = [];
@@ -26,8 +31,8 @@ export class AppView extends LitElement {
         for (const [name, nick] of this.map.entries()) {
             nicknameTemplates.push(
                 html`<nick-assign 
-                    name=${name},
-                    nick=${nick},
+                    name=${name}
+                    nick=${nick}
                     @renamed=${ e => console.log(e) }
                 />`
             )
