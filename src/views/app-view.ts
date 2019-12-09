@@ -1,5 +1,5 @@
 import { html, LitElement, customElement, property, TemplateResult } from 'lit-element';
-import { NickNameMap, Connect } from '../store';
+import { NickNameMap, Connect, Inject, DispatcherFunction } from '../store';
 
 import '../components/nick-assign';
 
@@ -7,6 +7,14 @@ import '../components/nick-assign';
 @Connect
 export class AppView extends LitElement {
     @property({ attribute: false }) map: NickNameMap = new Map();
+
+    constructor (
+        @Inject('ADD_NEW')
+        private addName: DispatcherFunction<{ name: string }>,
+
+        @Inject('CHANGE_NICK')
+        private changeNick: DispatcherFunction<{ name: string, nick: string }>
+    ) { super() }
 
     submitName () {
         const inputRef: HTMLInputElement = this.shadowRoot.querySelector('input#nameInput');
@@ -18,15 +26,16 @@ export class AppView extends LitElement {
             }
         }
 
-        // Add new name to the store  
+        this.addName({ name: newName })
     }
 
     submitNick (name: string, nick: string) {
-        // Submit changes to the store
+        this.changeNick({ name, nick })
     }
 
     onStateUpdate (newState: NickNameMap) {
         this.map = newState;
+        this.requestUpdate();
     }
 
     render () {

@@ -9,6 +9,7 @@
 
 import 'reflect-metadata';
 import { NickNameMap, NotifierFn, GenericStore } from './types';
+import { Injector } from './mutator';
 
 
 type CustomElement = {
@@ -20,29 +21,33 @@ type Connectable<T> = CustomElement & {
     onStateUpdate: (state: T) => void;
 }
 
-export const ConnectFactory = (store: GenericStore<NickNameMap>) =>
+export const ConnectFactory = (store: GenericStore<NickNameMap>, injector: Injector<NickNameMap>) =>
     <T extends Constructor<Connectable<any>>>(constructor: T) => {
-        // const metadata = Reflect.getMetadata('design:paramtypes', constructor);
-        // const argsNum = metadata ? metadata.length : 0;
-        // let injectedArgs = [];
+        const metadata = Reflect.getMetadata('design:paramtypes', constructor);
+        const argsNum = metadata ? metadata.length : 0;
+        let injectedArgs = [];
 
-        // if (metadata) {
-        //     injectedArgs = metadata
-        //         .filter(token => typeof token === 'string')
-        //         .map((token: string) => Injector.resolve(token));
-        // }
+        if (metadata) {
+            injectedArgs = metadata
+                .filter(token => typeof token === 'string')
+                .map((token: string) => {
+                    const dispatch = injector.resolve(token);
 
-        // const shouldInject = injectedArgs.length === argsNum;
+                    return (payload: any) => dispatch(store, payload)
+                });
+        }
+
+        const shouldInject = injectedArgs.length === argsNum;
 
         return class Connected extends constructor {
             private notifier: NotifierFn;
 
             constructor (...args: any[]) {
-                // if (shouldInject && args.length === 0) {
-                //     super(...injectedArgs)
-                // } else {
+                if (shouldInject && args.length === 0) {
+                    super(...injectedArgs)
+                } else {
                     super(...args)
-                // }
+                }
 
                 this.notifier = () => this.onStateUpdate(store.unwrap());
             }

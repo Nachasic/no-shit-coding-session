@@ -12,8 +12,15 @@ export type NotifierFn = (msg: StoreNotification) => any | void;
 export type Notifier = {
     registerNotifier: (fn: NotifierFn) => void;
     removeNotifier: () => void;
+    add: (name: string) => void;
+    nick: (name: string, nick: string) => void;
 }
 export type Wrapper<T> = {
     unwrap: () => T
 }
 export type GenericStore<T> = Wrapper<T> & Notifier;
+export type ReducerFunction<T, P> = (store: GenericStore<T>, payload: P) => void;
+export type DispatcherFunction<T> = (payload: T) => void;
+export type DispatcherActions<T = NickNameMap> = {
+    [name: string]: ReducerFunction<T, any>
+}

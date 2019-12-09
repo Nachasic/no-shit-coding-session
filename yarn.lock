@@ -7147,6 +7147,11 @@ trim-right@^1.0.1:
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
   integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
 
+ts-deepcopy@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ts-deepcopy/-/ts-deepcopy-0.1.4.tgz#6b59c6bb64c2cf89360a7b9da7829bcf49717218"
+  integrity sha512-F7ssOS1Se4OKboKPCkCK3aJlC+mSflN00Rh1fMImNYPM288pP0xEcDH172t3457OrymLwTs4A2N56BsVaEAVmA==
+
 ts-jest@^24.0.2:
   version "24.0.2"
   resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-24.0.2.tgz#8dde6cece97c31c03e80e474c749753ffd27194d"
