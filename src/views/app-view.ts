@@ -10,10 +10,10 @@ export class AppView extends LitElement {
 
     constructor (
         @Inject('ADD_NEW')
-        private addName: DispatcherFunction<{ name: string }>,
+        private addName?: DispatcherFunction<{ name: string }>,
 
         @Inject('CHANGE_NICK')
-        private changeNick: DispatcherFunction<{ name: string, nick: string }>
+        private changeNick?: DispatcherFunction<{ name: string, nick: string }>
     ) { super() }
 
     submitName () {
@@ -26,11 +26,11 @@ export class AppView extends LitElement {
             }
         }
 
-        this.addName({ name: newName })
+        this.addName && this.addName ({ name: newName })
     }
 
     submitNick (name: string, nick: string) {
-        this.changeNick({ name, nick })
+        this.changeNick && this.changeNick({ name, nick })
     }
 
     onStateUpdate (newState: NickNameMap) {
