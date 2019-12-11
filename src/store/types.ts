@@ -24,3 +24,4 @@ export type DispatcherFunction<T> = (payload: T) => void;
 export type DispatcherActions<T = NickNameMap> = {
     [name: string]: ReducerFunction<T, any>
 }
+export type ReducerName = string;

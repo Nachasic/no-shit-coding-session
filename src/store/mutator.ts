@@ -8,7 +8,7 @@
 import deepCopy from 'ts-deepcopy';
 import 'reflect-metadata';
 
-import { GenericStore, DispatcherActions, ReducerFunction } from './types';
+import { GenericStore, DispatcherActions, ReducerFunction, ReducerName } from './types';
 
 const failsafeStore: GenericStore<any> = {
     unwrap: () => new Map(),
@@ -19,23 +19,26 @@ const failsafeStore: GenericStore<any> = {
 }
 
 export class Injector<T> {
-    private injectionRegistry: Map<string, ReducerFunction<T, any>> = new Map();
+    private injectionRegistry: Map<
+        ReducerName,
+        ReducerFunction<T, any>
+    > = new Map();
 
     constructor (
         private dataStore: GenericStore<T> = failsafeStore
     ) {};
 
-    public inject (token: string, dep: ReducerFunction<T, any>) {
-        const existingDep = this.injectionRegistry.get(token);
+    public inject (name: ReducerName, reducer: ReducerFunction<T, any>) {
+        const existingDep = this.injectionRegistry.get(name);
 
         if (existingDep) {
-            throw new Error(`Store injector: token ${token} is injected twice`);
+            throw new Error(`Store injector: reducer ${name} is injected twice`);
         }
-        this.injectionRegistry.set(token, dep);
+        this.injectionRegistry.set(name, reducer);
     }
 
     public flush() {
-        this.injectionRegistry = new Map<string, any>();
+        this.injectionRegistry = new Map<ReducerName, ReducerFunction<T, any>>();
         this.dataStore = failsafeStore;
     }
 
@@ -43,26 +46,26 @@ export class Injector<T> {
         return this.dataStore;
     }
 
-    public resolve (token) {
-        return this.injectionRegistry.get(token);
+    public resolve (name: ReducerName): ReducerFunction<T, any> {
+        return this.injectionRegistry.get(name);
     }
 }
 
-const Inject = <T>(type: keyof T): ParameterDecorator =>
+const Inject = <T>(reducerName: keyof T): ParameterDecorator =>
     (target, propertyKey, propertyIndex) => {
         const meta = Reflect.getMetadata('design:paramtypes', target);
         const newMeta = deepCopy(meta);
 
-        newMeta[propertyIndex] = type;
+        newMeta[propertyIndex] = reducerName;
 
         Reflect.defineMetadata('design:paramtypes', newMeta, target)
     }
 
 
-export const resolveActions = <T extends DispatcherActions>(injector: Injector<any>, actions: T) => {
-    for (const [name, action] of Object.entries(actions)) {
+export const resolveReducers = <T extends DispatcherActions>(injector: Injector<any>, reducers: T) => {
+    for (const [name, reducer] of Object.entries(reducers)) {
         if (typeof name === 'string') {
-            injector.inject(name, action)
+            injector.inject(name, reducer)
         }
     }
 
