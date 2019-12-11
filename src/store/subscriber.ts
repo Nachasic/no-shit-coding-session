@@ -43,7 +43,6 @@ export const ConnectFactory = (store: GenericStore<NickNameMap>, injector: Injec
             private notifier: NotifierFn;
 
             constructor (...args: any[]) {
-                super();
                 if (shouldInject && args.length === 0) {
                     super(...injectedParams)
                 } else {

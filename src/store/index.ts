@@ -19,7 +19,9 @@ const initializeDataStore = (store: DataStore) => {
 }
 
 const datastore = new DataStore();
-const injector = new Injector(datastore);
+
+initializeDataStore(datastore);
+
 const reducers = {
     ADD_NEW: (store, payload: { name: string }) => {
         const { name } = payload;
@@ -32,7 +34,7 @@ const reducers = {
     }
 }
 
-initializeDataStore(datastore);
+const injector = new Injector(datastore);
 
 export const Connect = ConnectFactory(datastore, injector);
 export const Inject = resolveReducers(injector, reducers);
