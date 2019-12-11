@@ -8,7 +8,7 @@
 import deepCopy from 'ts-deepcopy';
 import 'reflect-metadata';
 
-import { GenericStore, DispatcherActions, ReducerFunction, ReducerName } from './types';
+import { GenericStore, Reducers, ReducerFunction, ReducerName } from './types';
 
 const failsafeStore: GenericStore<any> = {
     unwrap: () => new Map(),
@@ -28,6 +28,10 @@ export class Injector<T> {
         private dataStore: GenericStore<T> = failsafeStore
     ) {};
 
+    public get store () {
+        return this.dataStore;
+    }
+
     public inject (name: ReducerName, reducer: ReducerFunction<T, any>) {
         const existingDep = this.injectionRegistry.get(name);
 
@@ -40,10 +44,6 @@ export class Injector<T> {
     public flush() {
         this.injectionRegistry = new Map<ReducerName, ReducerFunction<T, any>>();
         this.dataStore = failsafeStore;
-    }
-
-    public get store () {
-        return this.dataStore;
     }
 
     public resolve (name: ReducerName): ReducerFunction<T, any> {
@@ -62,7 +62,7 @@ const Inject = <T>(reducerName: keyof T): ParameterDecorator =>
     }
 
 
-export const resolveReducers = <T extends DispatcherActions>(injector: Injector<any>, reducers: T) => {
+export const resolveReducers = <T extends Reducers>(injector: Injector<any>, reducers: T) => {
     for (const [name, reducer] of Object.entries(reducers)) {
         if (typeof name === 'string') {
             injector.inject(name, reducer)

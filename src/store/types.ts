@@ -21,7 +21,7 @@ export type Wrapper<T> = {
 export type GenericStore<T> = Wrapper<T> & Notifier;
 export type ReducerFunction<T, P> = (store: GenericStore<T>, payload: P) => void;
 export type DispatcherFunction<T> = (payload: T) => void;
-export type DispatcherActions<T = NickNameMap> = {
+export type Reducers<T = NickNameMap> = {
     [name: string]: ReducerFunction<T, any>
 }
 export type ReducerName = string;
