@@ -8,7 +8,7 @@
  */
 
 import 'reflect-metadata';
-import { NickNameMap, NotifierFn, GenericStore } from './types';
+import { NickNameMap, NotifierFn, GenericStore, ReducerName } from './types';
 import { Injector } from './mutator';
 
 
@@ -23,28 +23,29 @@ type Connectable<T> = CustomElement & {
 
 export const ConnectFactory = (store: GenericStore<NickNameMap>, injector: Injector<NickNameMap>) =>
     <T extends Constructor<Connectable<any>>>(constructor: T) => {
-        const metadata = Reflect.getMetadata('design:paramtypes', constructor);
-        const argsNum = metadata ? metadata.length : 0;
-        let injectedArgs = [];
+        const paramsMeta = Reflect.getMetadata('design:paramtypes', constructor);
+        const paramsNum = paramsMeta ? paramsMeta.length : 0;
+        let injectedParams = [];
 
-        if (metadata) {
-            injectedArgs = metadata
-                .filter(token => typeof token === 'string')
-                .map((token: string) => {
-                    const dispatch = injector.resolve(token);
+        if (paramsMeta) {
+            injectedParams = paramsMeta
+                .filter(paramType => typeof paramType === 'string')
+                .map((paramType: string) => {
+                    const dispatch = injector.resolve(paramType as ReducerName);
 
                     return (payload: any) => dispatch(store, payload)
                 });
         }
 
-        const shouldInject = injectedArgs.length === argsNum;
+        const shouldInject = injectedParams.length === paramsNum;
 
         return class Connected extends constructor {
             private notifier: NotifierFn;
 
             constructor (...args: any[]) {
+                super();
                 if (shouldInject && args.length === 0) {
-                    super(...injectedArgs)
+                    super(...injectedParams)
                 } else {
                     super(...args)
                 }
@@ -64,7 +65,7 @@ export const ConnectFactory = (store: GenericStore<NickNameMap>, injector: Injec
                 store.registerNotifier(this.notifier);
                 this.onStateUpdate(store.unwrap())
             }
-        
+
             disconnectedCallback() {
                 store.removeNotifier();
             }

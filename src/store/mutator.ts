@@ -61,7 +61,6 @@ const Inject = <T>(reducerName: keyof T): ParameterDecorator =>
         Reflect.defineMetadata('design:paramtypes', newMeta, target)
     }
 
-
 export const resolveReducers = <T extends Reducers>(injector: Injector<any>, reducers: T) => {
     for (const [name, reducer] of Object.entries(reducers)) {
         if (typeof name === 'string') {
