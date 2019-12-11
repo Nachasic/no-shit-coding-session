@@ -10,7 +10,7 @@ describe('Data store tests', () => {
 
     afterEach(() => {
         store.destroy();
-        store = undefined
+        store = undefined;
     })
 
     it('should exist', () => {
@@ -19,7 +19,6 @@ describe('Data store tests', () => {
 
     it('should report it\'s contents', () => {
         expect(store.report).toBeDefined();
-
         const report = store.report();
 
         expect(report).toEqual({})

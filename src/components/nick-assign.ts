@@ -14,7 +14,6 @@ export class NickAssign extends LitElement {
     }
 
     render () {
-
         return html`
             <li>
                 ${this.name} is gonna be called 
